@@ -1,0 +1,6 @@
+(executable
+ (public_name oc0c)
+ (name main)
+ (preprocess (pps ppx_deriving.std))
+ (libraries fmt)
+)
