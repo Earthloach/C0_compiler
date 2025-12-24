@@ -156,7 +156,7 @@ let next_token (l : lexer) : t =
   advance_char l;
   tok
 
-let of_string content = 
+let init_lexer content = 
   let lexer = {
     len = String.length content;
     content;

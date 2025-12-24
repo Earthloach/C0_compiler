@@ -12,7 +12,7 @@ let () =
   match Sys.argv with 
   | [| _; "--lex"; filename |] -> 
     let s = read_all filename in 
-    let l = Lexer.of_string s in 
+    let l = Lexer.init_lexer s in 
     Lexer.lex_all l 
     |> List.iter (fun t -> print_endline (Token.show t))
   | _ -> print_endline "Usage: oc0c --lex <file>"

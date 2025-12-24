@@ -11,7 +11,7 @@ doc: "https://url/to/documentation"
 bug-reports: "https://github.com/username/reponame/issues"
 depends: [
   "dune" {>= "3.19" & >= "3.19"}
-  "ppx_deriving" {>= "6.0.0"}
+  "ppx_deriving" {>= "6.0.3"}
   "odoc" {with-doc}
 ]
 build: [
