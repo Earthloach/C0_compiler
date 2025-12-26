@@ -42,5 +42,6 @@ type t =
   | Dec_const of Int32.t
   | Hex_const of Int32.t 
   | Ident of Symbol.t
+  | Comment of string
   | Eof
 [@@deriving show, eq, ord]

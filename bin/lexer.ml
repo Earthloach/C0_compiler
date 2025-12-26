@@ -136,22 +136,52 @@ let make_ident l =
   | Some kw -> kw
   | None -> Ident (Symbol.symbol ident_str)
 
-let next_token (l : lexer) : t = 
+let make_comment l is_single = 
+  advance_char l;
+  (* Single line comment*)
+  let pred = 
+    if is_single 
+    then 
+      fun l -> 
+        match peek_char l with
+        | Some '\n' -> false
+        | _ -> true
+
+  (* Multi-line comment*) 
+    else 
+      fun l -> 
+        match (l.ch, peek_char l) with
+        | (Some '*', Some '/') -> false
+        | (_, None) -> false (* Stop when encountering Eof*)
+        | _ -> true
+  in
+  advance_char l;
+  let s = take_while l ~pred in
+  let comment = if is_single then s
+                else String.sub s 0 (String.length s -1)
+  in
+  Comment (comment)
+ 
+
+let next_token l = 
   skip_white_space l;
   let tok =
     match l.ch with
+    | Some ('0'..'9') -> make_num_const l
+    | Some ('+' | '-' | '*' | '%' | '=') -> make_operator l
+    | Some '/' -> 
+        (match peek_char l with 
+         | Some '/' -> make_comment l true
+         | Some '*' -> make_comment l false
+         | _ -> make_operator l)
+    | Some ('a'..'z' | 'A'..'Z') -> make_ident l
+    | Some '{' -> LBrace
+    | Some '}' -> RBrace
+    | Some '(' -> LParen
+    | Some ')' -> RParen
+    | Some ';' -> Semicolon
+    | Some c -> Fmt.failwith "invalid input token %c" c
     | None -> Eof
-    | Some ch ->
-        match ch with 
-        | '0'..'9' -> make_num_const l
-        | '+' | '-' | '*' | '/' | '%' | '=' -> make_operator l
-        | 'a'..'z' | 'A'..'Z' -> make_ident l
-        | '{' -> LBrace
-        | '}' -> RBrace
-        | '(' -> LParen
-        | ')' -> RParen
-        | ';' -> Semicolon
-        | _ -> Fmt.failwith "next_token: expected a valid token"
   in
   advance_char l;
   tok
