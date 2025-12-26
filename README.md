@@ -1,2 +1,2 @@
 # C0_compiler
-C0 language compiler implemented in Ocaml
+My implementation of the C0 programming language in Ocaml, followed from CMU 15-411
