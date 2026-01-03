@@ -1,9 +1,5 @@
-// A simple main program for testing
 int main() { 
     int a = 0x100;
-    int b = a + 1;
+    int b = a + 1 * 3;
     return b; 
 }
-
-/* A simple main program
-for testing */

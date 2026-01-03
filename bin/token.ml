@@ -39,6 +39,7 @@ type t =
   | EqEq
   | Minus_minus
   | Semicolon
+  | Comma
   | Dec_const of Int32.t
   | Hex_const of Int32.t 
   | Ident of Symbol.t

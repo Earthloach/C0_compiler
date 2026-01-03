@@ -1,5 +1,5 @@
-let read_all filename = 
-    let ic = open_in filename in
+let read_all path = 
+    let ic = open_in path in
     Fun.protect
     ~finally:(fun () -> close_in_noerr ic)
     (fun () -> 
@@ -12,7 +12,8 @@ let () =
   match Sys.argv with 
   | [| _; "--lex"; filename |] -> 
     let s = read_all filename in 
-    let l = Lexer.init_lexer s in 
-    Lexer.lex_all l 
-    |> List.iter (fun t -> print_endline (Token.show t))
+    let t = Parser.init_token_stream s in
+    Parser.parse_func t 
+    |> Ast.Print.pp_func 
+    |> Format.print_string 
   | _ -> print_endline "Usage: oc0c --lex <file>"

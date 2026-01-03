@@ -180,6 +180,7 @@ let next_token l =
     | Some '(' -> LParen
     | Some ')' -> RParen
     | Some ';' -> Semicolon
+    | Some ',' -> Comma
     | Some c -> Fmt.failwith "invalid input token %c" c
     | None -> Eof
   in

@@ -1,12 +1,12 @@
 type binop =
-  | Plus
-  | Minus
-  | Times
-  | Divide
-  | Modulo
+  | Add
+  | Sub
+  | Mul
+  | Div
+  | Mod
 
 type asnop =
-  | Assign
+  | Eq
   | PlusEq
   | MinusEq
   | TimesEq
@@ -50,11 +50,11 @@ type program = func list
 (* Ast pretty printing *)
 module Print = struct
   let pp_binop = function
-    | Plus -> "+"
-    | Minus -> "-"
-    | Times -> "*"
-    | Divide -> "/"
-    | Modulo -> "%"
+    | Add -> "+"
+    | Sub -> "-"
+    | Mul -> "*"
+    | Div -> "/"
+    | Mod -> "%"
   ;;
 
   let pp_unop = function
@@ -62,7 +62,7 @@ module Print = struct
   ;;
 
   let pp_asnop : asnop -> string = function
-    | Assign -> "="
+    | Eq -> "="
     | PlusEq -> "+="
     | MinusEq -> "-="
     | TimesEq -> "*="
@@ -95,7 +95,7 @@ module Print = struct
   and pp_stms stms = String.concat "" (List.map (fun stm -> pp_stm stm ^ "\n") stms)
   ;;
 
-  let pp_func func = Format.sprintf "int %s(%s){\\n %s}" 
+  let pp_func func = Format.sprintf "int %s(%s){\n%s}" 
     (Symbol.name func.name)
     (String.concat "" (List.map (fun param -> (Symbol.name param) ^ " " ) func.params)) 
     (pp_stms func.body)
