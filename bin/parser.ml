@@ -67,7 +67,6 @@ let rec parse_factor s =
       ignore (take s);
       Var (name)
   | _ -> Fmt.failwith "parse error: invalid factor expr"
-      
 
 let rec parse_exp s min_prec =
   let left0 = parse_factor s in
